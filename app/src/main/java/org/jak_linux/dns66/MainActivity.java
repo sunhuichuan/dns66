@@ -33,11 +33,19 @@ import com.stephentuso.welcome.WelcomeHelper;
 import org.jak_linux.dns66.main.MainFragmentPagerAdapter;
 import org.jak_linux.dns66.vpn.AdVpnService;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLEncoder;
 
 public class MainActivity extends AppCompatActivity {
+    private static final String TAG = "MainActivity";
     private static final int REQUEST_FILE_OPEN = 1;
     private static final int REQUEST_FILE_STORE = 2;
     private static final int REQUEST_ITEM_EDIT = 3;
@@ -64,6 +72,46 @@ public class MainActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             config = FileHelper.loadCurrentSettings(this);
+            //将需要屏蔽视频广告的host直接写死到本地
+
+            BufferedInputStream bufferedIS = null;
+            BufferedOutputStream bufferedOS = null;
+            try {
+                Configuration.Item item = config.hosts.items.get(0);
+                String fireHostName = URLEncoder.encode(item.location);
+                File contextFolder = this.getExternalFilesDir(null);
+                File fileStreamPath = new File(contextFolder,fireHostName);
+                if (!fileStreamPath.exists()){
+                    InputStream hostInputStream = getAssets().open("shchosts.txt");
+                    bufferedIS = new BufferedInputStream(hostInputStream);
+                    bufferedOS = new BufferedOutputStream(new FileOutputStream(fileStreamPath));
+                    byte[] buffer = new byte[1024];
+                    int length;
+                    while ((length = bufferedIS.read(buffer))!=-1){
+                        bufferedOS.write(buffer,0,length);
+                    }
+                    bufferedOS.flush();
+                }
+            } catch (IOException e) {
+                Log.e(TAG,"拷贝异常",e);
+            }finally {
+                if (bufferedIS!=null){
+                    try {
+                        bufferedIS.close();
+                    } catch (IOException e) {
+                        Log.e(TAG,"关流异常",e);
+                    }
+                }
+                if (bufferedOS!=null){
+                    try {
+                        bufferedOS.close();
+                    } catch (IOException e) {
+                        Log.e(TAG,"关流异常",e);
+                    }
+                }
+            }
+
+
         }
         setContentView(R.layout.activity_main);
 

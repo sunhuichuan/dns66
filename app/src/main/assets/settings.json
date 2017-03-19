@@ -41,6 +41,11 @@
     "enabled": true,
     "items": [
       {
+        "title": "China video fire wall",
+        "location": "https://shc.org/hosts.txt",
+        "state": 0
+      },
+      {
         "title": "Adaway hosts file",
         "location": "https://adaway.org/hosts.txt",
         "state": 0

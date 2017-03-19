@@ -1,0 +1,27 @@
+##
+# Host Database
+#
+# localhost is used to configure the loopback interface
+# when the system is booting.  Do not change this entry.
+##
+127.0.0.1	localhost
+255.255.255.255	broadcasthost
+::1             localhost
+#以下为过滤视频网站广告url
+127.0.0.1 ad.api.3g.youku.com
+127.0.0.1 api.gamex.mobile.youku.com
+127.0.0.1 valf.atm.youku.com
+127.0.0.1 valp.atm.youku.com
+127.0.0.1 ad.api.3g.tudou.com
+127.0.0.1 js.tudouui.com
+127.0.0.1 m.aty.sohu.com
+127.0.0.1 agn.aty.sohu.com
+127.0.0.1 go.sohu.com
+127.0.0.1 pinglun.sohu.com
+127.0.0.1 images.sohu.com
+127.0.0.1 api.tv.sohu.com
+127.0.0.1 m.tv.sohu.com
+127.0.0.1 lives.l.qq.com
+127.0.0.1 pub.funshion.com
+127.0.0.1 de.as.pptv.com
+#以上为过滤视频网站广告url
